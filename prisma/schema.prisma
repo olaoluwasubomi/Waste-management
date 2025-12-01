@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+enum Role {
+  ADMIN
+  USER
+  COLLECTOR
+}
+
+enum WasteRequestStatus {
+  PENDING
+  ASSIGNED
+  IN_PROGRESS
+  COMPLETED
+  CANCELED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+}
+
+model User {
+  id              String        @id @default(uuid())
+  firstName       String
+  lastName        String
+  email           String        @unique
+  phone           String?
+  password        String
+  role            Role          @default(USER)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+
+  addresses       Address[]
+  requests        WasteRequest[]       @relation("UserRequests")
+  assignedPickups WasteRequest[]       @relation("CollectorAssignments")
+}
+
+model Address {
+  id            String   @id @default(uuid())
+  street        String
+  city          String
+  state         String
+  postalCode    String?
+  country       String   @default("Nigeria")
+  latitude      Float?
+  longitude     Float?
+
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+
+  WasteRequests WasteRequest[]
+}
+
+model WasteType {
+  id            String   @id @default(uuid())
+  name          String   @unique
+  description   String?
+  price         Float?
+
+  WasteRequests WasteRequest[]
+}
+
+model WasteRequest {
+  id            String             @id @default(uuid())
+  description   String?
+  status        WasteRequestStatus @default(PENDING)
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+
+  // Who requested pickup
+  userId        String
+  user          User               @relation("UserRequests", fields: [userId], references: [id])
+
+  // Collector assigned
+  collectorId   String?
+  collector     User?              @relation("CollectorAssignments", fields: [collectorId], references: [id])
+
+  // Waste type
+  wasteTypeId   String
+  wasteType     WasteType          @relation(fields: [wasteTypeId], references: [id])
+
+  // Pickup address
+  addressId     String
+  address       Address            @relation(fields: [addressId], references: [id])
+
+  // Payment
+  payment       Payment?
+}
+
+model Payment {
+  id             String         @id @default(uuid())
+  amount         Float
+  status         PaymentStatus  @default(PENDING)
+  transactionRef String?        @unique
+  paidAt         DateTime?
+
+  wasteRequestId String @unique
+  wasteRequest   WasteRequest   @relation(fields: [wasteRequestId], references: [id])
+}
