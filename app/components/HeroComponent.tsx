@@ -71,6 +71,7 @@
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 import Image1 from "../../public/images/5071743_2640303-removebg-preview.png";
 import Image2 from "../../public/images/7884507_3794722-removebg-preview.png";
@@ -165,9 +166,9 @@ export default function Hero() {
               transition={{ duration: 1.2, ease: "easeOut", delay: 0.7 }}
               className="mt-8 flex flex-wrap gap-4"
             >
-              <button className="px-6 py-3 bg-green-600 text-white rounded-xl font-semibold shadow-md hover:bg-green-700 transition">
+              <Link href="/onboarding/signup" className="px-6 py-3 bg-green-600 text-white rounded-xl font-semibold shadow-md hover:bg-green-700 transition">
                 Get Started
-              </button>
+              </Link>
 
               <button className="px-6 py-3 border border-green-600 text-green-700 rounded-xl font-semibold hover:bg-green-50 transition">
                 Learn More
