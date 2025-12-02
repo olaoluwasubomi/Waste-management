@@ -56,9 +56,7 @@ export default function Navigation() {
 
         {/* DESKTOP BUTTON */}
         <div className="hidden md:flex">
-          <button className="bg-green-600 text-white px-15 py-3 rounded-lg font-semibold hover:bg-green-700 transition">
-            <Link href="">Log In</Link>
-          </button>
+          <Link href="/onboarding/login" className="bg-green-600 text-white px-15 py-3 rounded-lg font-semibold hover:bg-green-700 transition">Log In</Link>
         </div>
 
         {/* MOBILE HAMBURGER */}
@@ -79,9 +77,8 @@ export default function Navigation() {
           <Link href="#services" onClick={() => setOpen(false)}>Services</Link>
           <Link href="#contact" onClick={() => setOpen(false)}>Contact</Link>
 
-          <button className="mt-4 w-full bg-green-600 text-white py-3 rounded-lg">
-            <Link href="/login">Log In</Link>
-          </button>
+
+          <Link href="/onboarding/login" className="mt-4 w-full bg-green-600 text-white py-3 rounded-lg">Log In</Link>
         </div>
       </div>
     </nav>
