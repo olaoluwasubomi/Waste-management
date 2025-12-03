@@ -78,7 +78,7 @@ export default function Navigation() {
           <Link href="#contact" onClick={() => setOpen(false)}>Contact</Link>
 
 
-          <Link href="/onboarding/login" className="mt-4 w-full bg-green-600 text-white py-3 rounded-lg">Log In</Link>
+          <Link href="/onboarding/login" className="mt-4 w-full bg-green-600 text-white py-3 rounded-lg text-center">Log In</Link>
         </div>
       </div>
     </nav>
